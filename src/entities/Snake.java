@@ -2,17 +2,23 @@ package entities;
 
 import entities.enums.Direction;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
-public class Snake {
+public class Snake implements ActionListener {
     private LinkedList<Point> body;
-    private Direction direction;
+    private static Direction direction;
+    private Timer timer;
 
     public Snake() {
         body = new LinkedList<>();
         body.add(new Point(5, 5));
         direction = Direction.RIGHT;
+        timer = new Timer(100,this);
+        timer.start();
     }
 
     public LinkedList<Point> getBody() {
@@ -27,7 +33,7 @@ public class Snake {
         this.direction = direction;
     }
 
-    public void move(){
+    public void moveSnake(){
         Point head = body.getFirst();
         Point newHead = new Point(head);
 
@@ -48,7 +54,7 @@ public class Snake {
         body.addFirst(newHead);
         body.removeLast();
     }
-    public void grow(){
+    public void growSnake(){
         Point head = body.getFirst();
         Point newHead = new Point(head);
 
@@ -69,8 +75,20 @@ public class Snake {
         body.addFirst(newHead);
     }
 
+    public static void changeDirection(Direction newDirection){
+        if(newDirection != direction){
+            direction = newDirection;
+        }
+    }
+
     public boolean checkCollisionSnake(Point point){
         return body.contains(point);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        moveSnake();
+
+    }
 }

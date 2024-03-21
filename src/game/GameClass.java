@@ -1,5 +1,7 @@
 package game;
 
+import entities.Snake;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,6 +9,7 @@ public class GameClass {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             ScreenGame screenGame = new ScreenGame();
+
 
             AssetsManager.loadAssets();
             Image snakeHeadImage = AssetsManager.getSnakeHeadIcon();
