@@ -69,9 +69,8 @@ public class Snake {
         body.addFirst(newHead);
     }
 
-    public boolean checkCollision(Point point){
+    public boolean checkCollisionSnake(Point point){
         return body.contains(point);
     }
 
 }
-
