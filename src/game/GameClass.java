@@ -10,7 +10,6 @@ public class GameClass {
         SwingUtilities.invokeLater(() -> {
             ScreenGame screenGame = new ScreenGame();
 
-
             AssetsManager.loadAssets();
             Image snakeHeadImage = AssetsManager.getSnakeHeadIcon();
 

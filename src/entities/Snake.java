@@ -33,7 +33,7 @@ public class Snake implements ActionListener {
         this.direction = direction;
     }
 
-    public void moveSnake(){
+    public void moveSnake(Graphics g){
         Point head = body.getFirst();
         Point newHead = new Point(head);
 
@@ -53,6 +53,9 @@ public class Snake implements ActionListener {
         }
         body.addFirst(newHead);
         body.removeLast();
+
+
+
     }
     public void growSnake(){
         Point head = body.getFirst();
@@ -88,7 +91,7 @@ public class Snake implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        moveSnake();
+
 
     }
 }
