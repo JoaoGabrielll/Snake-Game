@@ -1,7 +1,5 @@
 package game;
 
-import entities.Snake;
-
 import javax.swing.*;
 import java.awt.*;
 

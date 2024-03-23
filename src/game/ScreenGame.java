@@ -14,7 +14,6 @@ public class ScreenGame extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                     GameControls.keyPressedControl(e);
-
             }
         });
     }

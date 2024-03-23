@@ -1,6 +1,7 @@
 package entities;
 
 import entities.enums.Direction;
+import game.AssetsManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +13,8 @@ public class Snake implements ActionListener {
     private LinkedList<Point> body;
     private static Direction direction;
     private Timer timer;
+    private int tileSize = AssetsManager.getTileSize();
+    private Fruit fruit;
 
     public Snake() {
         body = new LinkedList<>();
@@ -54,8 +57,15 @@ public class Snake implements ActionListener {
         body.addFirst(newHead);
         body.removeLast();
 
+        Image headImage = AssetsManager.getSnakeHeadIcon();
+        g.drawImage(headImage, newHead.x * tileSize, newHead.y * tileSize, null);
 
+        Rectangle snakeBounds = new Rectangle(newHead.x * tileSize, newHead.y * tileSize, tileSize, tileSize);
+        Rectangle fruitBounds = fruit.getBounds();
 
+        if(snakeBounds.intersects(fruitBounds)){
+            fruit.setNewFruitPosition();
+        }
     }
     public void growSnake(){
         Point head = body.getFirst();
