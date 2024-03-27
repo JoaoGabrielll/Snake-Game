@@ -13,7 +13,6 @@ public class GameClass {
 
             AssetsManager assetsManager = new AssetsManager();
             screenGame.add(assetsManager);
-            screenGame.setVisible(true);
         });
     }
 }

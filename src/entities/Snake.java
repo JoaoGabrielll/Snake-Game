@@ -36,7 +36,7 @@ public class Snake implements ActionListener {
         this.direction = direction;
     }
 
-    public void moveSnake(Graphics g){
+    public void moveSnake(){
         Point head = body.getFirst();
         Point newHead = new Point(head);
 
@@ -54,11 +54,14 @@ public class Snake implements ActionListener {
                 newHead.x++;
                 break;
         }
-        body.addFirst(newHead);
-        body.removeLast();
 
-        Image headImage = AssetsManager.getSnakeHeadIcon();
-        g.drawImage(headImage, newHead.x * tileSize, newHead.y * tileSize, null);
+        if(head.equals(fruit)) {
+            body.addFirst(newHead);
+            Fruit.spawFruitRandom();
+        }else {
+            body.addFirst(newHead);
+            body.removeLast();
+        }
 
         Rectangle snakeBounds = new Rectangle(newHead.x * tileSize, newHead.y * tileSize, tileSize, tileSize);
         Rectangle fruitBounds = fruit.getBounds();
