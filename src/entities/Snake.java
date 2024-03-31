@@ -14,14 +14,17 @@ public class Snake implements ActionListener {
     private static Direction direction;
     private Timer timer;
     private int tileSize = AssetsManager.getTileSize();
+    private boolean hasEatenFruit;
     private Fruit fruit;
 
     public Snake() {
         body = new LinkedList<>();
         body.add(new Point(5, 5));
+        hasEatenFruit = false;
         direction = Direction.RIGHT;
         timer = new Timer(100,this);
         timer.start();
+        this.fruit = new Fruit();
     }
 
     public LinkedList<Point> getBody() {
@@ -37,58 +40,79 @@ public class Snake implements ActionListener {
     }
 
     public void moveSnake(){
-        Point head = body.getFirst();
-        Point newHead = new Point(head);
+        Point head = new Point(body.getFirst());
 
         switch (direction){
             case UP:
-                newHead.y--;
+                head.y -= tileSize;
                 break;
             case DOWN:
-                newHead.y++;
-                break;
-            case RIGHT:
-                newHead.x--;
+                head.y += tileSize;
                 break;
             case LEFT:
-                newHead.x++;
+                head.x -= tileSize;
+                break;
+            case RIGHT:
+                head.x += tileSize;
                 break;
         }
 
-        if(head.equals(fruit)) {
-            body.addFirst(newHead);
-            Fruit.spawFruitRandom();
-        }else {
-            body.addFirst(newHead);
+        if(head.equals(fruit.getFruitPosition())) {
+            increaseSize();
+            fruit.spawFruitRandom();
+            hasEatenFruit = true;
+        }else{
             body.removeLast();
+            hasEatenFruit = false;
         }
 
-        Rectangle snakeBounds = new Rectangle(newHead.x * tileSize, newHead.y * tileSize, tileSize, tileSize);
+        Rectangle snakeBounds = new Rectangle(head.x, head.y, tileSize, tileSize);
         Rectangle fruitBounds = fruit.getBounds();
 
         if(snakeBounds.intersects(fruitBounds)){
             fruit.setNewFruitPosition();
+            hasEatenFruit = true;
+        }else{
+            hasEatenFruit = false;
         }
     }
     public void growSnake(){
-        Point head = body.getFirst();
-        Point newHead = new Point(head);
+        Point head = new Point(body.getFirst());
 
         switch (direction){
             case UP:
-                newHead.y--;
+                head.y--;
                 break;
             case DOWN:
-                newHead.y++;
+                head.y++;
                 break;
             case RIGHT:
-                newHead.x--;
+                head.x--;
                 break;
             case LEFT:
-                newHead.x++;
+                head.x++;
                 break;
         }
-        body.addFirst(newHead);
+        body.addFirst(head);
+    }
+
+    public boolean hasEatenFruit(){
+        return hasEatenFruit;
+    }
+
+    public void increaseSize(){
+        Point tail = body.getLast();
+        Point newSegment = new Point(tail.x, tail.y);
+        body.addLast(newSegment);
+    }
+
+    public void checkCollisionSnake(Point fruitPosition){
+        Point head = body.getFirst();
+
+        if(head.equals(fruitPosition)){
+            increaseSize();
+            hasEatenFruit = true;
+        }
     }
 
     public static void changeDirection(Direction newDirection){
@@ -97,14 +121,8 @@ public class Snake implements ActionListener {
         }
     }
 
-    public boolean checkCollisionSnake(Point point){
-        return body.contains(point);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
-
-
+        moveSnake();
     }
 }
